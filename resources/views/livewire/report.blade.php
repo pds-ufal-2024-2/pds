@@ -21,6 +21,12 @@
                 <p>Photo saved successfully!</p>
             @endif
         </div>
+
         {{ $photoDetailsRaw }}
+
+        <p>
+            <span>Categoria: </span>
+            <span>{{ $category }}</span>
+        </p>
     </form>
 </div>

@@ -7,6 +7,7 @@ use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
 use Livewire\Component;
+use Stichoza\GoogleTranslate\GoogleTranslate;
 
 class Report extends Component
 {
@@ -22,6 +23,16 @@ class Report extends Component
     public $photo;
 
     public $photoDetailsRaw;
+
+    public $category;
+
+    public $categories = [
+        'Animal',
+        'Vegetação',
+        'Infraestrutura',
+        'Poluição',
+        'Outra',
+    ];
 
     public function render()
     {
@@ -45,6 +56,27 @@ class Report extends Component
             'stream' => false,
         ]);
 
-        $this->photoDetailsRaw = $response->json()['response'];
+        $photoDetailsRaw = $response->json()['response'];
+
+        // Translate the description to Portuguese
+        $tr = new GoogleTranslate();
+        $tr->setSource('en');
+        $tr->setTarget('pt');
+
+        $this->photoDetailsRaw = $tr->translate($photoDetailsRaw);
+
+        // Select the category using the deepseek-r1 model
+        $response = Http::post(url: 'http://ollama:11434/api/generate', data: [
+            'model' => 'deepseek-r1',
+            'prompt' => "{$photoDetailsRaw}. A partir dessa descrição de uma imagem, selecione uma das seguintes categorias que melhor se encaixa com a descrição: " . implode(', ', $this->categories) . ". Responda apenas o nome da categoria.",
+            'stream' => false,
+        ]);
+
+        $category = $response->json()['response'];
+
+        // Remove all text between <think> and </think>
+        $category = preg_replace('/<think>.*?<\/think>/s', '', $category);
+
+        $this->category = trim($category);
     }
 }
