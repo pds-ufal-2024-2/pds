@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Storage;
 use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
@@ -19,7 +20,7 @@ class Report extends Component
     #[Reactive]
     public $lng;
 
-    #[Validate('image|max:1024')] // 1MB Max
+    #[Validate('image')]
     public $photo;
 
     public $photoDetailsRaw;
@@ -39,7 +40,29 @@ class Report extends Component
         return view('livewire.report');
     }
 
-    public function savePhoto()
+    public function updated($propertyName)
+    {
+        if ($propertyName === 'photo') {
+            $this->processPhoto();
+        }
+    }
+
+    public function submitIncident()
+    {
+        $incident = new \App\Models\Incident();
+        $incident->code = uniqid();
+        $incident->image = $this->photo->store('photos', 'public');
+        $incident->description = $this->photoDetailsRaw;
+        $incident->category = $this->category;
+        $incident->latitude = $this->lat;
+        $incident->longitude = $this->lng;
+        $incident->save();
+
+        // Redirect to the incident page
+        return $this->redirect("/report/{$incident->code}", navigate: true);
+    }
+
+    private function processPhoto()
     {
         // Get the temporary uploaded file path
         $path = $this->photo->getRealPath();
