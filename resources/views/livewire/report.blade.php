@@ -3,7 +3,7 @@
         <div>
             <label for="photo" class="block text-sm font-medium text-gray-700">Imagem</label>
             <div class="mt-1">
-                <input type="file" id="photo" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" wire:model="photo">
+                <input type="file" accept="image/*" id="photo" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" wire:model="photo">
             </div>
         </div>
 
@@ -28,6 +28,28 @@
             <label for="category" class="block text-sm font-medium text-gray-700">Categoria</label>
             <div class="mt-1">
                 <input type="text" id="category" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" wire:model="category">
+            </div>
+        </div>
+
+        <div class="mt-4">
+            <fieldset class="space-y-5">
+                <legend class="sr-only">Notificações</legend>
+                <div class="relative flex items-start">
+                    <div class="flex items-center h-5">
+                        <input id="receive-updates" aria-describedby="receive-updates-description" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" wire:model="receive_updates">
+                    </div>
+                    <div class="ml-3 text-sm">
+                        <label for="receive-updates" class="font-medium text-gray-700">Atualizações</label>
+                        <p id="receive-updates-description" class="text-gray-500">Seja notificado via email quando alguma atualização ocorrer.</p>
+                    </div>
+                </div>
+            </fieldset>
+        </div>
+
+        <div class="mt-4" wire:show="receive_updates" x-transition.duration.500ms>
+            <label for="email" class="block text-sm font-medium text-gray-700">E-mail</label>
+            <div class="mt-1">
+                <input type="text" id="email" class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md" wire:model="email">
             </div>
         </div>
 

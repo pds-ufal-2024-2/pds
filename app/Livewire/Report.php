@@ -2,8 +2,12 @@
 
 namespace App\Livewire;
 
+use App\Mail\IncidentReported;
+use App\Models\Incident;
+use App\Models\IncidentHistory;
+use App\Models\Interested;
 use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
@@ -27,6 +31,10 @@ class Report extends Component
 
     public $category;
 
+    public $receive_updates = false;
+
+    public $email;
+
     public $categories = [
         'Animal',
         'Vegetação',
@@ -49,7 +57,7 @@ class Report extends Component
 
     public function submitIncident()
     {
-        $incident = new \App\Models\Incident();
+        $incident = new Incident();
         $incident->code = uniqid();
         $incident->image = $this->photo->store('photos', 'public');
         $incident->description = $this->photoDetailsRaw;
@@ -57,6 +65,19 @@ class Report extends Component
         $incident->latitude = $this->lat;
         $incident->longitude = $this->lng;
         $incident->save();
+
+        $incidentHistory = new IncidentHistory();
+        $incidentHistory->incident_id = $incident->id;
+        $incidentHistory->message = "Incidente reportado.";
+
+        if ($this->receive_updates && $this->email) {
+            $interested = new Interested();
+            $interested->incident_id = $incident->id;
+            $interested->email = $this->email;
+            $interested->save();
+
+            Mail::to($this->email)->send(new IncidentReported($incident));
+        }
 
         // Redirect to the incident page
         return $this->redirect("/report/{$incident->code}", navigate: true);
