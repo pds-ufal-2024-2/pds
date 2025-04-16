@@ -12,7 +12,7 @@ class IncidentController extends Controller
      */
     public function show(string $code)
     {
-        $incident = Incident::where('code', $code)->firstOrFail();
+        $incident = Incident::where('code', $code)->with('history')->firstOrFail();
 
         return view('incidents.show', [
             'incident' => $incident,

@@ -69,6 +69,7 @@ class Report extends Component
         $incidentHistory = new IncidentHistory();
         $incidentHistory->incident_id = $incident->id;
         $incidentHistory->message = "Incidente reportado.";
+        $incidentHistory->save();
 
         if ($this->receive_updates && $this->email) {
             $interested = new Interested();
