@@ -15,4 +15,9 @@ class Incident extends Model
     {
         return $this->hasMany(Interested::class);
     }
+
+    public function up()
+    {
+        return $this->hasMany(UpIncident::class);
+    }
 }

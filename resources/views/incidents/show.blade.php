@@ -9,6 +9,9 @@
             <div class="max-w-96 max-h-96 shadow-lg rounded-lg overflow-hidden">
                 <img src="{{ Storage::url($incident->image) }}" class="object-cover">
             </div>
+
+            <livewire:up-incident-zone :incident="$incident" />
+
             <p class="mt-4"><strong>Código da ocorrência:</strong> {{ $incident->code }}</p>
             <p class="mt-4"><strong>Categoria:</strong> {{ $incident->category }}</p>
             <p class="mt-4"><strong>Registrada em:</strong> @longDate($incident->created_at)</p>
