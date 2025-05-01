@@ -2,10 +2,22 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Incident extends Model
 {
+    use HasFactory;
+
+    protected $fillable = [
+        'code',
+        'image',
+        'description',
+        'category',
+        'latitude',
+        'longitude',
+    ];
+
     public function history()
     {
         return $this->hasMany(IncidentHistory::class);
