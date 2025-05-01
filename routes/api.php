@@ -8,6 +8,6 @@ Route::get('/user', function (Request $request) {
 })->middleware('auth:sanctum');
 
 Route::get('/incidents', function (Request $request) {
-    $incidents = \App\Models\Incident::all();
+    $incidents = \App\Models\Incident::with(['history', 'interested', 'up'])->get();
     return response()->json($incidents);
 })->middleware('auth:sanctum');
