@@ -1,0 +1,16 @@
+[90m= [39m[34;4mApp\Models\Incident[39;24m {#5575
+    [34mcode[39m: "[32mINC011[39m",
+    [34mimage[39m: "[32m/imagens/cano.jpg[39m",
+    [34mdescription[39m: "[32mCano estourado liberando água na calçada.[39m",
+    [34mcategory[39m: "[32mSaneamento[39m",
+    [34mlatitude[39m: [33m-9.661[39m,
+    [34mlongitude[39m: [33m-35.732[39m,
+    [34mstatus[39m: "[32mBAIXA[39m",
+    [34mincident[39m: "[32mVazamento[39m",
+    [34mentity[39m: "[32mBRK[39m",
+    [34mcounter[39m: [35m1[39m,
+    [34mupdated_at[39m: "[32m2025-05-19 21:35:59[39m",
+    [34mcreated_at[39m: "[32m2025-05-19 21:35:59[39m",
+    [34mid[39m: [35m3[39m,
+  }
+
