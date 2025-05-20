@@ -94,7 +94,7 @@ class Report extends Component
         $base64Image = base64_encode($data);
 
         // Retrieve the image description via LLava
-        $response = Http::post(url: 'http://ollama:11434/api/generate', data: [
+        $response = Http::timeout(180)->post(url: 'http://ollama:11434/api/generate', data: [
             'model' => 'llava',
             'prompt' => 'Describe the image',
             'images' => [$base64Image],
@@ -111,7 +111,7 @@ class Report extends Component
         $this->photoDetailsRaw = $tr->translate($photoDetailsRaw);
 
         // Select the category using the deepseek-r1 model
-        $response = Http::post(url: 'http://ollama:11434/api/generate', data: [
+        $response = Http::timeout(180)->post(url: 'http://ollama:11434/api/generate', data: [
             'model' => 'deepseek-r1',
             'prompt' => "{$photoDetailsRaw}. A partir dessa descrição de uma imagem, selecione uma das seguintes categorias que melhor se encaixa com a descrição: " . implode(', ', $this->categories) . ". Responda apenas o nome da categoria.",
             'stream' => false,
