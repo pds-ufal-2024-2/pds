@@ -23,15 +23,22 @@ Route::get('/incidents/{code}', function ($code) {
     return response()->json($incident);
 })->middleware('auth:sanctum');
 
-Route::put('/incidents/{code}', function (Request $request, $code) {
-    $incident = \App\Models\Incident::where('code', $code)->first();
-    if (!$incident) {
-        return response()->json(['message' => 'Incident not found'], 404);
-    }
+// Route::put('/incidents/{code}', function (Request $request, $code) {
+//     $incident = \App\Models\Incident::where('code', $code)->first();
+//     if (!$incident) {
+//         return response()->json(['message' => 'Incident not found'], 404);
+//     }
 
+//     $incident->update($request->all());
+//     return response()->json($incident);
+// })->middleware('auth:sanctum');
+Route::put('/incidents/{id}', function (Request $request, $id) {
+    $incident = \App\Models\Incident::findOrFail($id);
     $incident->update($request->all());
-    return response()->json($incident);
-})->middleware('auth:sanctum');
+    return response()->json(['message' => 'Atualizado com sucesso']);
+});
+
+
 Route::post('/login', function (Request $request) {
     // Log::info('Login attempt', ['email' => $request->input('email')]);
     $credentials = $request->only('email', 'password');
