@@ -15,6 +15,13 @@ Route::get('/incidents', function (Request $request) {
     return response()->json($incidents);
 })->middleware('auth:sanctum');
 
+Route::put('/incidents/{id}', function (Request $request, $id) {
+    $incident = \App\Models\Incident::findOrFail($id);
+    $incident->update($request->all());
+    return response()->json(['message' => 'Atualizado com sucesso']);
+});
+
+
 Route::post('/login', function (Request $request) {
     Log::info('Login attempt', ['email' => $request->input('email')]);
     $credentials = $request->only('email', 'password');
