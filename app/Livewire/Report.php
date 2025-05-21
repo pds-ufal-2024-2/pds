@@ -86,6 +86,7 @@ class Report extends Component
 
     private function processPhoto()
     {
+        set_time_limit(180);
         // Get the temporary uploaded file path
         $path = $this->photo->getRealPath();
 
@@ -94,9 +95,10 @@ class Report extends Component
         $base64Image = base64_encode($data);
 
         // Retrieve the image description via LLava
-        $response = Http::timeout(180)->post(url: 'http://ollama:11434/api/generate', data: [
+        $response = Http::timeout(300)->post(url: 'http://ollama:11434/api/generate', data: [
             'model' => 'llava',
-            'prompt' => 'Describe the image',
+            'prompt' => 'Briefly describe the image and the consequences it has for people.',
+            'temperature' => 0.4,
             'images' => [$base64Image],
             'stream' => false,
         ]);
@@ -111,7 +113,7 @@ class Report extends Component
         $this->photoDetailsRaw = $tr->translate($photoDetailsRaw);
 
         // Select the category using the deepseek-r1 model
-        $response = Http::timeout(180)->post(url: 'http://ollama:11434/api/generate', data: [
+        $response = Http::timeout(120)->post(url: 'http://ollama:11434/api/generate', data: [
             'model' => 'deepseek-r1',
             'prompt' => "{$photoDetailsRaw}. A partir dessa descrição de uma imagem, selecione uma das seguintes categorias que melhor se encaixa com a descrição: " . implode(', ', $this->categories) . ". Responda apenas o nome da categoria.",
             'stream' => false,
