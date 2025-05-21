@@ -99,6 +99,13 @@ services:
             - 11434:11434
         networks:
             - sail
+        deploy:
+            resources:
+                reservations:
+                    devices:
+                        - driver: nvidia
+                          count: all
+                          capabilities: [gpu]
     mailpit:
         image: 'axllent/mailpit:latest'
         ports:
