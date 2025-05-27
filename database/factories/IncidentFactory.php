@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,7 @@ class IncidentFactory extends Factory
     public function definition(): array
     {
         return [
-            'code' => uniqid(),
+            'code' => Str::of(Str::random(6))->lower(),
             'image' => $this->faker->imageUrl(),
             'description' => $this->faker->sentence(),
             'category' => $this->faker->word(),

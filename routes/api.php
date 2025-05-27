@@ -23,20 +23,19 @@ Route::get('/incidents/{code}', function ($code) {
     return response()->json($incident);
 })->middleware('auth:sanctum');
 
-// Route::put('/incidents/{code}', function (Request $request, $code) {
-//     $incident = \App\Models\Incident::where('code', $code)->first();
-//     if (!$incident) {
-//         return response()->json(['message' => 'Incident not found'], 404);
-//     }
-
-//     $incident->update($request->all());
-//     return response()->json($incident);
-// })->middleware('auth:sanctum');
 Route::put('/incidents/{id}', function (Request $request, $id) {
     $incident = \App\Models\Incident::findOrFail($id);
     $incident->update($request->all());
-    return response()->json(['message' => 'Atualizado com sucesso']);
-});
+    return response()->json($incident);
+})->middleware('auth:sanctum');
+
+Route::post('/history', function (Request $request) {
+    $history = new \App\Models\IncidentHistory();
+    $history->incident_id = $request->input('incident_id');
+    $history->message = $request->input('message');
+    $history->save();
+    return response()->json($history);
+})->middleware('auth:sanctum');
 
 
 Route::post('/login', function (Request $request) {

@@ -11,6 +11,7 @@ use App\Models\IncidentHistory;
 use App\Models\Interested;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Validate;
 use Livewire\WithFileUploads;
@@ -61,7 +62,7 @@ class Report extends Component
     public function submitIncident()
     {
         $incident = new Incident();
-        $incident->code = uniqid();
+        $incident->code = Str::of(Str::random(6))->lower();
         $incident->image = $this->photo->store('photos', 'public');
         $incident->description = $this->photoDetailsRaw;
         $incident->category = $this->category;

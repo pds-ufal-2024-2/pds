@@ -33,13 +33,13 @@ test('update incident details', function () {
 
     $incident = Incident::factory()->create();
 
-    $response = $this->put("/api/incidents/$incident->code", [
+    $response = $this->put("/api/incidents/$incident->id", [
         'description' => 'Updated Description',
     ]);
 
     $response->assertStatus(200);
     $this->assertDatabaseHas('incidents', [
-        'code' => $incident->code,
+        'id' => $incident->id,
         'description' => 'Updated Description',
     ]);
 });
