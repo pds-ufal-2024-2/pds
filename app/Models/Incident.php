@@ -22,6 +22,7 @@ class Incident extends Model
         'entity',
         'counter',
         'bairro',
+        'public_visibility',
     ];
 
 
