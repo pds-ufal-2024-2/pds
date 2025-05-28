@@ -24,6 +24,10 @@ class IncidentFactory extends Factory
             'category' => $this->faker->word(),
             'latitude' => $this->faker->latitude(),
             'longitude' => $this->faker->longitude(),
+            'status' => $this->faker->randomElement(['open', 'closed']),
+            'incident' => $this->faker->word(),
+            'bairro' => $this->faker->word(),
+            'public_visibility' => $this->faker->boolean(80), // 80% chance of being true
         ];
     }
 }
