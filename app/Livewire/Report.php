@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\LLM\Contracts\ISelectCategory;
+use App\LLM\Contracts\IShortText;
 use App\LLM\DockerOllama;
 use App\LLM\ModelFactory;
 use App\LLM\Models\Llava;
@@ -32,6 +34,8 @@ class Report extends Component
     public $photo;
 
     public $photoDetailsRaw;
+
+    public $shortTextSummary;
 
     public $category;
 
@@ -65,9 +69,11 @@ class Report extends Component
         $incident->code = Str::of(Str::random(6))->lower();
         $incident->image = $this->photo->store('photos', 'public');
         $incident->description = $this->photoDetailsRaw;
+        $incident->incident = $this->shortTextSummary;
         $incident->category = $this->category;
         $incident->latitude = $this->lat;
         $incident->longitude = $this->lng;
+        $incident->status = 'open';
         $incident->save();
 
         $incidentHistory = new IncidentHistory();
@@ -106,6 +112,18 @@ class Report extends Component
 
         // Select the category
         $questionModel = ModelFactory::questionModel();
-        $this->category = $questionModel->selectCategory($this->photoDetailsRaw);
+        if ($questionModel instanceof ISelectCategory) {
+            $this->category = $questionModel->selectCategory($this->photoDetailsRaw);
+        }
+
+        // If the category is not set, default to 'Outra'
+        if (empty($this->category)) {
+            $this->category = 'Outra';
+        }
+
+        // Short text summary
+        if ($questionModel instanceof IShortText) {
+            $this->shortTextSummary = $questionModel->resumeText($this->photoDetailsRaw);
+        }
     }
 }

@@ -4,13 +4,14 @@ namespace App\LLM;
 
 use App\LLM\Contracts\IDescribeImage;
 use App\LLM\Contracts\ISelectCategory;
+use App\LLM\Contracts\IShortText;
 use App\LLM\Models\DeepseekR1;
 use App\LLM\Models\Llava;
 use Illuminate\Support\Str;
 
 class ModelFactory
 {
-    public static function questionModel(): ISelectCategory
+    public static function questionModel(): ISelectCategory|IShortText
     {
         $environment = config('llm.environment');
 
