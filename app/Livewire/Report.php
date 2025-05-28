@@ -11,6 +11,7 @@ use App\Mail\IncidentReported;
 use App\Models\Incident;
 use App\Models\IncidentHistory;
 use App\Models\Interested;
+use App\OpenStreetMaps;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -74,6 +75,7 @@ class Report extends Component
         $incident->category = $this->category;
         $incident->latitude = $this->lat;
         $incident->longitude = $this->lng;
+        $incident->bairro = OpenStreetMaps::buscarBairro($this->lat, $this->lng);
         $incident->status = 'open';
         $incident->save();
 
