@@ -26,6 +26,7 @@ class IncidentFactory extends Factory
             'longitude' => $this->faker->longitude(),
             'status' => $this->faker->randomElement(['open', 'closed']),
             'incident' => $this->faker->word(),
+            'entity' => $this->faker->word(),
             'bairro' => $this->faker->word(),
             'public_visibility' => $this->faker->boolean(80), // 80% chance of being true
             'priority' => $this->faker->randomElement(['low', 'normal', 'high']),
