@@ -42,15 +42,15 @@ class CreateIncident extends Command
         }
 
         $response = form()
-            ->text('Code', default: $incident->code, name: 'code')
-            ->text('Image URL', default: $incident->image, name: 'image')
-            ->text('Incident', default: $incident->incident, name: 'incident')
-            ->text('Description', default: $incident->description, name: 'description')
-            ->text('Category', default: $incident->category, name: 'category')
-            ->text('Latitude', default: $incident->latitude, name: 'latitude')
-            ->text('Longitude', default: $incident->longitude, name: 'longitude')
-            ->select('Status', options: ['open' => 'Open', 'closed' => 'Closed'], default: $incident->status, name: 'status')
-            ->text('Entity', default: $incident->bairro, name: 'bairro')
+            ->text('Code', default: $incident->code ?? '', name: 'code')
+            ->text('Image URL', default: $incident->image ?? '', name: 'image')
+            ->text('Incident', default: $incident->incident ?? '', name: 'incident')
+            ->text('Description', default: $incident->description ?? '', name: 'description')
+            ->text('Category', default: $incident->category ?? '', name: 'category')
+            ->text('Latitude', default: $incident->latitude ?? '', name: 'latitude')
+            ->text('Longitude', default: $incident->longitude ?? '', name: 'longitude')
+            ->select('Status', options: ['open' => 'Open', 'closed' => 'Closed'], default: 'open', name: 'status')
+            ->text('Entity', default: $incident->bairro ?? '', name: 'bairro')
             ->confirm('Public Visibility', default: true, name: 'public_visibility')
             ->text('Number of Up Votes', default: 0, name: 'counter', validate: 'integer|min:0')
             ->submit();
@@ -58,11 +58,7 @@ class CreateIncident extends Command
         $incident->fill($response);
         $incident->save();
 
-        $upVotes = UpIncident::factory()->count($response['counter'])->make();
-        foreach ($upVotes as $upVote) {
-            $upVote->incident_id = $incident->id;
-            $upVote->save();
-        }
+        UpIncident::factory()->count($response['counter'])->for($incident)->create();
 
         $this->info('Incident created successfully!');
     }
