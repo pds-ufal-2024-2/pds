@@ -7,7 +7,7 @@
         <div class="bg-white shadow-md rounded-lg p-6">
             <h2 class="text-xl font-semibold mb-4">Detalhes da ocorrência</h2>
             <div class="max-w-96 max-h-96 shadow-lg rounded-lg overflow-hidden">
-                <img src="{{ Storage::url($incident->image) }}" class="object-cover">
+                <img src="{{ $incident->image }}" class="object-cover">
             </div>
 
             <livewire:up-incident-zone :incident="$incident" />

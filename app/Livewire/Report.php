@@ -13,6 +13,7 @@ use App\Models\IncidentHistory;
 use App\Models\Interested;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Reactive;
 use Livewire\Attributes\Validate;
@@ -67,7 +68,7 @@ class Report extends Component
     {
         $incident = new Incident();
         $incident->code = Str::of(Str::random(6))->lower();
-        $incident->image = $this->photo->store('photos', 'public');
+        $incident->image = Storage::url($this->photo->store('photos', 'public'));
         $incident->description = $this->photoDetailsRaw;
         $incident->incident = $this->shortTextSummary;
         $incident->category = $this->category;
