@@ -23,6 +23,7 @@ class Incident extends Model
         'counter',
         'bairro',
         'public_visibility',
+        'priority',
     ];
 
 

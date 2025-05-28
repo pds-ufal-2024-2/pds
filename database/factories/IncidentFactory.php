@@ -28,6 +28,7 @@ class IncidentFactory extends Factory
             'incident' => $this->faker->word(),
             'bairro' => $this->faker->word(),
             'public_visibility' => $this->faker->boolean(80), // 80% chance of being true
+            'priority' => $this->faker->randomElement(['low', 'normal', 'high']),
         ];
     }
 }

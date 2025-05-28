@@ -53,6 +53,7 @@ class CreateIncident extends Command
             ->text('Entity', default: $incident->bairro ?? '', name: 'bairro')
             ->confirm('Public Visibility', default: true, name: 'public_visibility')
             ->text('Number of Up Votes', default: 0, name: 'counter', validate: 'integer|min:0')
+            ->select('Priority', options: ['low' => 'Low', 'normal' => 'Normal', 'high' => 'High'], default: 'normal', name: 'priority')
             ->submit();
 
         $incident->fill($response);
