@@ -43,3 +43,15 @@ test('update incident details', function () {
         'description' => 'Updated Description',
     ]);
 });
+
+test('retrieve all entities', function () {
+    $user = User::factory()->create();
+    $this->actingAs($user);
+
+    Incident::factory(state: ['entity' => 'default'])->count(3)->create();
+    Incident::factory(state: ['entity' => 'unique'])->create();
+
+    $response = $this->get('/api/entities');
+    $response->assertStatus(200);
+    $response->assertJsonCount(2);
+});

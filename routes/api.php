@@ -37,6 +37,13 @@ Route::post('/history', function (Request $request) {
     return response()->json($history);
 })->middleware('auth:sanctum');
 
+Route::get('/entities', function (Request $request) {
+    $incidents = \App\Models\Incident::all();
+    $entities = $incidents->map(function ($incident) {
+        return $incident->entity;
+    })->unique();
+    return response()->json($entities);
+})->middleware('auth:sanctum');
 
 Route::post('/login', function (Request $request) {
     // Log::info('Login attempt', ['email' => $request->input('email')]);
