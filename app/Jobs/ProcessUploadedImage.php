@@ -4,6 +4,7 @@ namespace App\Jobs;
 
 use App\LLM\Contracts\ISelectCategory;
 use App\LLM\Contracts\IShortText;
+use App\LLM\Contracts\ISuggestAction;
 use App\LLM\ModelFactory;
 use App\LLM\Models\Llava;
 use App\Models\Incident;
@@ -69,6 +70,17 @@ class ProcessUploadedImage implements ShouldQueue
         $incidentHistory = new IncidentHistory();
         $incidentHistory->incident_id = $this->incident->id;
         $incidentHistory->message = "Resumo do incidente atualizado automaticamente: {$this->incident->incident}";
+        $incidentHistory->save();
+
+        // Suggest action
+        if ($questionModel instanceof ISuggestAction) {
+            $this->incident->suggestions = $questionModel->suggestAction($this->incident->description);
+            $this->incident->save();
+        }
+
+        $incidentHistory = new IncidentHistory();
+        $incidentHistory->incident_id = $this->incident->id;
+        $incidentHistory->message = "Ação sugerida atualizada automaticamente: {$this->incident->suggestions}";
         $incidentHistory->save();
     }
 }

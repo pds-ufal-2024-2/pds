@@ -5,8 +5,9 @@ namespace App\LLM\Models;
 use App\LLM\DockerOllama;
 use App\LLM\Contracts\ISelectCategory;
 use App\LLM\Contracts\IShortText;
+use App\LLM\Contracts\ISuggestAction;
 
-class DeepseekR1 extends DockerOllama implements ISelectCategory, IShortText
+class DeepseekR1 extends DockerOllama implements ISelectCategory, IShortText, ISuggestAction
 {
     protected array $categories = [
         'Animal',
@@ -30,6 +31,15 @@ class DeepseekR1 extends DockerOllama implements ISelectCategory, IShortText
     public function resumeText(string $text): string
     {
         $prompt = "Resuma o seguinte texto em até cinco palavras: {$text}. Responda apenas com o resumo.";
+        $response = $this->request($prompt);
+        $response = preg_replace('/<think>.*?<\/think>/s', '', $response); // Remove think
+        $response = trim($response); // Remove blanks at the beginning and end
+        return $response;
+    }
+
+    public function suggestAction(string $incidentDescription): string
+    {
+        $prompt = "A partir da seguinte descrição de um incidente: {$incidentDescription}, sugira uma ação que deve ser tomada. Responda apenas com a ação sugerida.";
         $response = $this->request($prompt);
         $response = preg_replace('/<think>.*?<\/think>/s', '', $response); // Remove think
         $response = trim($response); // Remove blanks at the beginning and end
