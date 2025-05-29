@@ -20,7 +20,7 @@ class Map extends Component
 
     public function mount()
     {
-        $this->incidents = Incident::where('public_visibility', true)->get()->map(function ($incident) {
+        $this->incidents = Incident::where('public_visibility', true)->where('status', '!=', 'closed')->get()->map(function ($incident) {
             return [
                 'lat' => $incident->latitude,
                 'lng' => $incident->longitude,
