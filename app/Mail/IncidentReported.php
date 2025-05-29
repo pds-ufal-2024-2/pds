@@ -21,6 +21,7 @@ class IncidentReported extends Mailable
      */
     public function __construct(
         public Incident $incident,
+        public string $photoPath,
     ) {
         $this->afterCommit();
     }
@@ -56,7 +57,7 @@ class IncidentReported extends Mailable
     public function attachments(): array
     {
         return [
-            Attachment::fromPath(storage_path('app/public/' . $this->incident->image)),
+            Attachment::fromPath(Storage::disk('public')->path($this->photoPath)),
         ];
     }
 }

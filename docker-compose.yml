@@ -33,7 +33,7 @@ services:
         extra_hosts:
             - 'host.docker.internal:host-gateway'
         environment:
-            SUPERVISOR_PHP_COMMAND: '/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan queue:listen --tries=1'
+            SUPERVISOR_PHP_COMMAND: '/usr/bin/php -d variables_order=EGPCS /var/www/html/artisan queue:listen --tries=1 --timeout=600'
             WWWUSER: '${WWWUSER}'
             LARAVEL_SAIL: 1
             XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'

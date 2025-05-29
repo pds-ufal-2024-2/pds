@@ -5,8 +5,6 @@ Obrigado por reportar um incidente em nosso sistema. Aqui estão os detalhes do 
 
 <x-mail::panel>
 **Código do Incidente:** {{ $incident->code }}
-
-**Categoria:** {{ $incident->category }}
 </x-mail::panel>
 
 <x-mail::button :url="$incident_url">
