@@ -49,6 +49,7 @@ class CreateIncident extends Command
             ->text('Category', default: $incident->category ?? '', name: 'category')
             ->text('Latitude', default: $incident->latitude ?? '', name: 'latitude')
             ->text('Longitude', default: $incident->longitude ?? '', name: 'longitude')
+            ->text('Suggestions', default: $incident->suggestions ?? '', name: 'suggestions')
             ->select('Status', options: ['open' => 'Open', 'closed' => 'Closed'], default: 'open', name: 'status')
             ->text('Entity', default: $incident->entity ?? '', name: 'entity')
             ->text('Bairro', default: $incident->bairro ?? '', name: 'bairro')

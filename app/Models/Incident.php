@@ -23,6 +23,7 @@ class Incident extends Model
         'bairro',
         'public_visibility',
         'priority',
+        'suggestions',
     ];
 
 

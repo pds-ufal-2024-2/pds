@@ -30,6 +30,7 @@ class IncidentFactory extends Factory
             'bairro' => $this->faker->word(),
             'public_visibility' => $this->faker->boolean(80), // 80% chance of being true
             'priority' => $this->faker->randomElement(['low', 'normal', 'high']),
+            'suggestions' => $this->faker->sentence(),
         ];
     }
 }
