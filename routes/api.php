@@ -41,7 +41,7 @@ Route::get('/entities', function (Request $request) {
     $incidents = \App\Models\Incident::all();
     $entities = $incidents->map(function ($incident) {
         return $incident->entity;
-    })->unique();
+    })->unique()->values();
     return response()->json($entities);
 })->middleware('auth:sanctum');
 
