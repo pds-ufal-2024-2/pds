@@ -6,9 +6,9 @@
                 <button wire:click="showReportForm" type="button" class="inline-flex items-center px-6 py-3 border border-gray-300 shadow-sm text-base font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Nova ocorrência</button>
             </div>
         </div>
-        <div class="z-10 absolute top-0 right-0">
+        {{-- <div class="z-10 absolute top-0 right-0">
             {{ $lat }} {{ $lng }}
-        </div>
+        </div> --}}
         <div wire:show="showReport" x-transition.duration.500ms class="z-10 absolute w-full h-full bg-white">
             <livewire:report :$lat :$lng />
         </div>
