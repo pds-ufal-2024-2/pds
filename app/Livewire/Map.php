@@ -34,6 +34,10 @@ class Map extends Component
     {
         $this->lat = $lat;
         $this->lng = $lng;
+    }
+
+    public function showReportForm()
+    {
         $this->showReport = true;
     }
 }
